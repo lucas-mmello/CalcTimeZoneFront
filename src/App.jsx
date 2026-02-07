@@ -44,6 +44,7 @@ export default function App() {
 
   useEffect(() => {
     localStorage.setItem("lang", lang);
+    document.documentElement.lang = lang;
     setDay((prev) =>
       prev ? { value: prev.value, label: t.days[prev.value] } : days[0]
     );
