@@ -95,11 +95,11 @@ export default function App() {
     placeholder: (base) => ({ ...base, color: "#94a3b8" }),
   };
 
-  useEffect(() => {
-    if (window.adsbygoogle && result) {
-      window.adsbygoogle.push({});
-    }
-  }, [result]);
+  // useEffect(() => {
+  //   if (window.adsbygoogle && result) {
+  //     window.adsbygoogle.push({});
+  //   }
+  // }, [result]);
 
   return (
     <div className="container">
@@ -214,7 +214,7 @@ export default function App() {
           )}
         </div>
       )}
-      {result && (
+      {/* {result && (
         <div className="ad-container">
           <ins
             className="adsbygoogle"
@@ -225,7 +225,7 @@ export default function App() {
             data-full-width-responsive="true"
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 }
