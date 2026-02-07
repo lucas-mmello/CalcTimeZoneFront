@@ -31,6 +31,14 @@ export const translations = {
       Saturday: "Sábado",
       Sunday: "Domingo",
     },
+    errors: {
+      fillAllFields: "Preencha todos os campos antes de calcular",
+      sameTimezone: "Os fusos não podem ser iguais",
+      apiError: "Erro ao calcular. Tente novamente mais tarde",
+    },
+    success: {
+      calculated: "Horário calculado com sucesso!",
+    },
   },
 
   en: {
@@ -64,6 +72,14 @@ export const translations = {
       Saturday: "Saturday",
       Sunday: "Sunday",
     },
+    errors: {
+      fillAllFields: "Please fill in all fields before calculating",
+      sameTimezone: "Timezones cannot be the same",
+      apiError: "Failed to calculate. Please try again later",
+    },
+    success: {
+      calculated: "Time successfully calculated!",
+    },
   },
 
   es: {
@@ -96,6 +112,14 @@ export const translations = {
       Friday: "Viernes",
       Saturday: "Sábado",
       Sunday: "Domingo",
+    },
+    errors: {
+      fillAllFields: "Completa todos los campos antes de calcular",
+      sameTimezone: "Las zonas horarias no pueden ser iguales",
+      apiError: "Error al calcular. Inténtalo más tarde",
+    },
+    success: {
+      calculated: "¡Horario calculado con éxito!",
     },
   },
 };
