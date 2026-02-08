@@ -48,13 +48,13 @@ export default function App() {
     localStorage.setItem("lang", lang);
     document.documentElement.lang = lang;
     setDay((prev) =>
-      prev ? { value: prev.value, label: t.days[prev.value] } : days[0]
+      prev ? { value: prev.value, label: t.days[prev.value] } : days[0],
     );
   }, [lang]);
 
   useEffect(() => {
     axios
-      .get("https://calctimezone.wuaze.com/api/timezones.php")
+      .get("https://calc-time-zone-api.vercel.app/api/timezones")
       .then((res) => {
         console.log(res.data);
         setTimezones(res.data);
@@ -79,14 +79,14 @@ export default function App() {
 
     try {
       const res = await axios.post(
-        "https://calctimezone.wuaze.com/api/convert.php",
+        "https://calc-time-zone-api.vercel.app/api/convert",
         {
           start,
           end,
           day: day.value,
           from: fromTz.value,
           to: toTz.value,
-        }
+        },
       );
 
       setResult(res.data);
