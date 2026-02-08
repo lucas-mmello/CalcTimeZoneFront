@@ -54,7 +54,7 @@ export default function App() {
 
   useEffect(() => {
     axios
-      .get("https://calctimezoneapi.onrender.com/api/timezones.php")
+      .get("https://calctimezone.wuaze.com/api/timezones.php")
       .then((res) => {
         console.log(res.data);
         setTimezones(res.data);
@@ -79,7 +79,7 @@ export default function App() {
 
     try {
       const res = await axios.post(
-        "https://calctimezoneapi.onrender.com/api/convert.php",
+        "https://calctimezone.wuaze.com/api/convert.php",
         {
           start,
           end,
