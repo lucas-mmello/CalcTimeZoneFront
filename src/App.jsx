@@ -52,17 +52,35 @@ export default function App() {
     );
   }, [lang]);
 
+  // 🔹 Carregar timezones da API (novo formato)
   useEffect(() => {
     axios
       .get("https://calc-time-zone-api.vercel.app/api/timezones")
       .then((res) => {
-        console.log(res.data);
-        setTimezones(res.data);
+        const adapted = res.data.map((tz) => ({
+          value: tz.id, // ID real do timezone
+          label: tz.label, // Label pronta pra UI
+          keywords: tz.keywords, // Para busca avançada
+        }));
+
+        setTimezones(adapted);
+      })
+      .catch(() => {
+        toast.error(t.errors.apiError, {
+          icon: <FiAlertCircle />,
+        });
       });
   }, []);
 
+  // 🔍 Busca inteligente usando keywords
+  const filterOption = (option, inputValue) => {
+    if (!inputValue) return true;
+    const search = inputValue.toLowerCase();
+
+    return option.data.keywords?.some((k) => k.includes(search));
+  };
+
   const calculate = async () => {
-    // validação básica
     if (!fromTz || !toTz || !day || !start || !end) {
       toast.error(t.errors.fillAllFields, {
         icon: <FiAlertCircle />,
@@ -84,8 +102,8 @@ export default function App() {
           start,
           end,
           day: day.value,
-          from: fromTz.value,
-          to: toTz.value,
+          from: fromTz.value, // ID do timezone
+          to: toTz.value, // ID do timezone
         },
       );
 
@@ -94,7 +112,7 @@ export default function App() {
       toast.success(t.success.calculated, {
         icon: <FiCheckCircle />,
       });
-    } catch (err) {
+    } catch {
       toast.error(t.errors.apiError, {
         icon: <FiAlertCircle />,
       });
@@ -124,14 +142,8 @@ export default function App() {
     placeholder: (base) => ({ ...base, color: "#94a3b8" }),
   };
 
-  // useEffect(() => {
-  //   if (window.adsbygoogle && result) {
-  //     window.adsbygoogle.push({});
-  //   }
-  // }, [result]);
-
   return (
-    <React.Fragment>
+    <>
       <div className="container">
         <h2>
           <FiGlobe /> {t.title}
@@ -152,6 +164,7 @@ export default function App() {
           placeholder={t.placeholders.fromTz}
           options={timezones}
           onChange={setFromTz}
+          filterOption={filterOption}
         />
 
         <label>
@@ -162,6 +175,7 @@ export default function App() {
           placeholder={t.placeholders.toTz}
           options={timezones}
           onChange={setToTz}
+          filterOption={filterOption}
         />
 
         <label>
@@ -204,7 +218,6 @@ export default function App() {
             <strong>{t.resultTitle}</strong>
             <p style={{ opacity: 0.75 }}>{t.resultContext}</p>
 
-            {/* LOCAL */}
             <div className="result-block highlight">
               <h4>
                 <FiMapPin /> {t.localTime}
@@ -217,7 +230,6 @@ export default function App() {
               </p>
             </div>
 
-            {/* COMPANY */}
             <div className="result-block muted">
               <h4>
                 <FiBriefcase /> {t.companyTime}
@@ -230,7 +242,6 @@ export default function App() {
               </p>
             </div>
 
-            {/* CONTEXTO */}
             {result.case === "company_ahead" && (
               <div className="badge warning">
                 <FiAlertCircle /> {t.companyAhead}
@@ -250,28 +261,16 @@ export default function App() {
             )}
           </div>
         )}
-        {/* {result && (
-        <div className="ad-container">
-          <ins
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-XXXX"
-            data-ad-slot="YYYY"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
-        </div>
-      )} */}
       </div>
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
-        hideProgressBar={false}
         newestOnTop
         closeOnClick
         pauseOnHover
         theme="dark"
       />
-    </React.Fragment>
+    </>
   );
 }
